@@ -1,0 +1,70 @@
+<div class="container-fluid py-4 bg-light">
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h1 class="display-5 text-center text-primary mb-4">
+            <i class="bi bi-people-fill me-2"></i>User Directory
+          </h1>
+          
+          <div class="row justify-content-center">
+            <div class="col-md-6">
+              <div class="input-group shadow-sm">
+                <span class="input-group-text bg-white border-end-0">
+                  <i class="bi bi-search text-muted"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control border-start-0 ps-0" 
+                  placeholder="Search by name or email"
+                  (input)="filterUsers($event)"
+                >
+              </div>
+            </div>
+          </div>
+  
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3 text-center" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+      </div>
+  
+      <div class="row g-4">
+        <div *ngFor="let user of filteredUsers" class="col-md-4 col-lg-3">
+          <div class="card h-100 border-0 shadow-sm hover-lift">
+            <div class="card-body text-center">
+              <div class="avatar-container mb-3">
+                <img 
+                  [src]="'https://ui-avatars.com/api/?name=' + user.name.replace(' ', '+')" 
+                  class="rounded-circle avatar-img" 
+                  alt="{{ user.name }}'s avatar"
+                >
+              </div>
+              <h5 class="card-title mb-2 text-dark">{{ user.name }}</h5>
+              <p class="card-text text-muted mb-1">
+                <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                {{ user.email }}
+              </p>
+              <p class="card-text text-muted mb-3">
+                <i class="bi bi-geo-alt-fill me-2 text-success"></i>
+                {{ user.address.street }}, {{ user.address.city }}
+              </p>
+              <div class="d-flex justify-content-center">
+                <span class="badge bg-primary rounded-pill">
+                  <i class="bi bi-file-text me-1"></i>
+                  {{ user.posts?.length || 0 }} Posts
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div *ngIf="filteredUsers.length === 0" class="col-12 text-center">
+          <div class="alert alert-info" role="alert">
+            <i class="bi bi-info-circle-fill me-2"></i>
+            No users found matching your search.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
