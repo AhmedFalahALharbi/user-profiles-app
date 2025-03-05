@@ -7,12 +7,14 @@ import { UserService, User } from '../user.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+  styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   errorMessage: string = '';
+
+  selectedUserId: number | null = null;
 
   constructor(private userService: UserService) {}
 
@@ -35,9 +37,13 @@ export class UserListComponent implements OnInit {
 
   filterUsers(event: Event): void {
     const searchTerm = (event.target as HTMLInputElement).value.toLowerCase();
-    this.filteredUsers = this.users.filter(user => 
-      user.name.toLowerCase().includes(searchTerm) || 
+    this.filteredUsers = this.users.filter(user =>
+      user.name.toLowerCase().includes(searchTerm) ||
       user.email.toLowerCase().includes(searchTerm)
     );
+  }
+
+  togglePosts(user: User): void {
+    this.selectedUserId = this.selectedUserId === user.id ? null : user.id;
   }
 }
